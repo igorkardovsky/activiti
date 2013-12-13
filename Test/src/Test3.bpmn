@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="test3processId" name="Test3 Process Name" isExecutable="true">
+    <extensionElements>
+      <activiti:executionListener event="start" class="test3.JavaExpression"></activiti:executionListener>
+      <activiti:executionListener event="end" class="test3.JavaExpression"></activiti:executionListener>
+    </extensionElements>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="VerifyOrder" name="VerifyOrder Task">
+      <extensionElements>
+        <activiti:taskListener event="all" class="test3.JavaExpression"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="VerifyOrder"></sequenceFlow>
+    <serviceTask id="PrintOrder" name="PrintOrder task" activiti:class="test3.JavaExpression">
+      <extensionElements>
+        <activiti:executionListener event="start" class="test3.JavaExpression"></activiti:executionListener>
+        <activiti:executionListener event="end" class="test3.JavaExpression"></activiti:executionListener>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow2" sourceRef="VerifyOrder" targetRef="PrintOrder"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow3" sourceRef="PrintOrder" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_test3processId">
+    <bpmndi:BPMNPlane bpmnElement="test3processId" id="BPMNPlane_test3processId">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="140.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="600.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="VerifyOrder" id="BPMNShape_VerifyOrder">
+        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="PrintOrder" id="BPMNShape_PrintOrder">
+        <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="175.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="277.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="355.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="277.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="515.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="277.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

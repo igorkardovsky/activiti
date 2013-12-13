@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="myProcess" name="My process" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <serviceTask id="CheckNeedverification" name="CheckNeedverification Task" activiti:class="test4.OMSImpl"></serviceTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="CheckNeedverification"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow2" sourceRef="CheckNeedverification" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="VerifyOrder" name="VerifyOrder Task">
+      <extensionElements>
+        <activiti:taskListener event="create" class="test4.OMSImpl"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow3" name="да" sourceRef="exclusivegateway1" targetRef="VerifyOrder">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${needVerification=='true'}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="FullfillOrder" name="FullfillOrder" activiti:class="test4.OMSImpl"></serviceTask>
+    <sequenceFlow id="flow4" name="нет" sourceRef="exclusivegateway1" targetRef="FullfillOrder">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${needVerification=='false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" name="верифицировано" sourceRef="exclusivegateway2" targetRef="FullfillOrder">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${verified=='true'}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="success" name="Успех"></endEvent>
+    <endEvent id="fail" name="End"></endEvent>
+    <sequenceFlow id="flow6" sourceRef="FullfillOrder" targetRef="success"></sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="VerifyOrder" targetRef="exclusivegateway2"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow8" name="не верифицировано" sourceRef="exclusivegateway2" targetRef="fail">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${verified=='false'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
+    <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="180.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CheckNeedverification" id="BPMNShape_CheckNeedverification">
+        <omgdc:Bounds height="55.0" width="105.0" x="280.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="472.0" y="227.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="632.0" y="357.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="success" id="BPMNShape_success">
+        <omgdc:Bounds height="35.0" width="35.0" x="790.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="fail" id="BPMNShape_fail">
+        <omgdc:Bounds height="35.0" width="35.0" x="790.0" y="360.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="FullfillOrder" id="BPMNShape_FullfillOrder">
+        <omgdc:Bounds height="55.0" width="105.0" x="600.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="VerifyOrder" id="BPMNShape_VerifyOrder">
+        <omgdc:Bounds height="55.0" width="105.0" x="440.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="215.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="280.0" y="247.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="385.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="472.0" y="247.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="492.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="492.0" y="350.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="12.0" x="10.0" y="0.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="512.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="247.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="18.0" x="-36.0" y="0.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="652.0" y="357.0"></omgdi:waypoint>
+        <omgdi:waypoint x="652.0" y="275.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="88.0" x="10.0" y="0.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="705.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="790.0" y="247.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="545.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="632.0" y="377.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="672.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="790.0" y="377.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="42.0" width="100.0" x="-40.0" y="13.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
